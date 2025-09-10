@@ -9,7 +9,7 @@ import {
   FaCircleUser,
   FaRocketchat,
 } from "react-icons/fa6";
-import React, { FormEvent, useState } from "react";
+import React, {  useState } from "react";
 import { motion } from "framer-motion";
 
 type ContactInfo = {
@@ -76,7 +76,7 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
   };
