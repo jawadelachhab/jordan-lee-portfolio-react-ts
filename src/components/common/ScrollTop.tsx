@@ -13,7 +13,17 @@ const ScrollTop: React.FC = () => {
 
   const scrollTopVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring" as const, bounce: 0.3, duration: 0.5 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring" as const, bounce: 0.3, duration: 0.5 },
+    },
+  };
+
+  // Smooth scroll to top
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -23,11 +33,11 @@ const ScrollTop: React.FC = () => {
           href="#top"
           className="go-top"
           title="Go to Top"
-          data-go-top
           variants={scrollTopVariants}
           initial="hidden"
           animate="visible"
           exit="hidden"
+          onClick={handleClick}
         >
           <FaArrowUp />
         </motion.a>
