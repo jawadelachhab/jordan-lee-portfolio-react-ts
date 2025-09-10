@@ -1,9 +1,44 @@
-import { FaFacebookF ,FaXTwitter,FaLinkedinIn} from "react-icons/fa6";
+import React from "react";
+import { FaFacebookF, FaXTwitter, FaLinkedinIn } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
-const Hero = () => {
+type SocialLink = {
+  name: string;
+  href: string;
+  icon: React.ReactNode;
+};
+
+const socialLinks: SocialLink[] = [
+  { name: "Facebook", href: "#", icon: <FaFacebookF /> },
+  { name: "Twitter", href: "#", icon: <FaXTwitter /> },
+  { name: "LinkedIn", href: "#", icon: <FaLinkedinIn /> },
+];
+
+const Hero: React.FC = () => {
+  // Framer Motion variants
+  const container = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { staggerChildren: 0.2, duration: 0.6 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
     <section className="hero" id="home">
-      <figure className="hero-banner">
+      {/* Image Banner */}
+      <motion.figure
+        className="hero-banner"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+      >
         <picture>
           <source
             srcSet="./images/hero-banner.png"
@@ -19,42 +54,53 @@ const Hero = () => {
             className="w-100"
           />
         </picture>
-      </figure>
+      </motion.figure>
 
-      <div className="hero-content">
-        <h2 className="h2 hero-title">We Design & Build Creative Products</h2>
-        <a href="#contact" className="btn btn-primary">
+      {/* Content */}
+      <motion.div
+        className="hero-content"
+        variants={container}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.h2 className="h2 hero-title" variants={item}>
+          We Design & Build Creative Products
+        </motion.h2>
+        <motion.a
+          href="#contact"
+          className="btn btn-primary"
+          variants={item}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           Get in touch
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
 
-      <ul className="hero-social-list">
-        <li>
-          <a href="#" className="hero-social-link">
-            
-            <FaFacebookF/>
-            <div className="tooltip">Facebook</div>
-          </a>
-        </li>
-        <li>
-          <a href="#" className="hero-social-link">
-            
-            <FaXTwitter/>
-            <div className="tooltip">Twitter</div>
-          </a>
-        </li>
-        <li>
-          <a href="#" className="hero-social-link">
-            
-            <FaLinkedinIn/>
-            <div className="tooltip">LinkedIn</div>
-          </a>
-        </li>
-      </ul>
+      {/* Social Links */}
+      <motion.ul
+        className="hero-social-list"
+        variants={container}
+        initial="hidden"
+        animate="visible"
+      >
+        {socialLinks.map((social) => (
+          <motion.li key={social.name} variants={item}>
+            <a href={social.href} className="hero-social-link">
+              {social.icon}
+              <div className="tooltip">{social.name}</div>
+            </a>
+          </motion.li>
+        ))}
+      </motion.ul>
 
-      <a href="#stats" className="scroll-down">
+      <motion.a
+        href="#stats"
+        className="scroll-down"
+       
+      >
         Scroll
-      </a>
+      </motion.a>
     </section>
   );
 };

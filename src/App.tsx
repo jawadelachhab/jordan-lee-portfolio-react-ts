@@ -12,7 +12,7 @@ import Contact from "./components/pages/home/Contact";
 const App = () => {
   return (
     <ThemeProvider>
-      <div className="test">
+      <div className="app-container">
         <Header />
         <main>
           <div className="container">

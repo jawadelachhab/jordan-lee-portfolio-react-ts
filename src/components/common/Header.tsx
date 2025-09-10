@@ -1,32 +1,70 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../../ThemeContext";
+import { motion } from "framer-motion";
+
+type NavLink = {
+  id: string;
+  label: string;
+  href: string;
+};
+
+const navLinks: NavLink[] = [
+  { id: "home", label: "Home.", href: "#home" },
+  { id: "about", label: "About.", href: "#about" },
+  { id: "skills", label: "Skills.", href: "#skills" },
+  { id: "portfolio", label: "Portfolio.", href: "#portfolio" },
+  { id: "contact", label: "Contact.", href: "#contact" },
+];
+
+const headerVariants = {
+  hidden: { y: -50, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    transition: { type: "spring" as const, bounce: 0.2, duration: 0.8 } 
+  },
+};
+
+const navLinkVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.3 },
+  }),
+};
+
 const Header = () => {
   const { toggleTheme, theme } = useTheme();
-const [isNavOpen, setIsNavOpen] = useState(false);
- const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleNavToggle = () => {
-    setIsNavOpen((prev) => !prev);
-  };
+  const handleNavToggle = () => setIsNavOpen((prev) => !prev);
 
-  // Scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY >= 10);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY >= 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-   <header className={`header ${isScrolled ? "active" : ""}`}>
+    <motion.header
+      className={`header ${isScrolled ? "active" : ""}`}
+      variants={headerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="container">
-        <h1 className="h1 logo">
+        <motion.h1 
+          className="h1 logo"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", duration: 0.8, bounce: 0.2 }}
+        >
           <a href="#">
             Jordan Lee<span>.</span>
           </a>
-        </h1>
+        </motion.h1>
 
         <div className="navbar-actions">
           <select name="language" id="lang">
@@ -45,52 +83,39 @@ const [isNavOpen, setIsNavOpen] = useState(false);
         </div>
 
         <button
-          
           className={`nav-toggle-btn ${isNavOpen ? "active" : ""}`}
           aria-label="Toggle Menu"
           title="Toggle Menu"
-           onClick={handleNavToggle}
+          onClick={handleNavToggle}
         >
           <span className="one"></span>
           <span className="two"></span>
           <span className="three"></span>
         </button>
 
-       <nav className={`navbar ${isNavOpen ? "active" : ""}`}>
+        <nav className={`navbar ${isNavOpen ? "active" : ""}`}>
           <ul className="navbar-list">
-            <li>
-              <a href="#home" className="navbar-link">
-                Home.
-              </a>
-            </li>
-
-            <li>
-              <a href="#about" className="navbar-link">
-                About.
-              </a>
-            </li>
-
-            <li>
-              <a href="#skills" className="navbar-link">
-                Skills.
-              </a>
-            </li>
-
-            <li>
-              <a href="#portfolio" className="navbar-link">
-                Portfolio.
-              </a>
-            </li>
-
-            <li>
-              <a href="#contact" className="navbar-link">
-                Contact.
-              </a>
-            </li>
+            {navLinks.map(({ id, label, href }, i) => (
+              <motion.li
+                key={id}
+                custom={i}
+                variants={navLinkVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <a
+                  href={href}
+                  className="navbar-link"
+                  onClick={() => setIsNavOpen(false)}
+                >
+                  {label}
+                </a>
+              </motion.li>
+            ))}
           </ul>
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
