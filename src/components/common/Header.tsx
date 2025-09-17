@@ -1,38 +1,18 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../../ThemeContext";
-import { motion } from "framer-motion";
 
-type NavLink = {
-  id: string;
+interface NavLink {
   label: string;
   href: string;
-};
+}
 
 const navLinks: NavLink[] = [
-  { id: "home", label: "Home.", href: "#home" },
-  { id: "about", label: "About.", href: "#about" },
-  { id: "skills", label: "Skills.", href: "#skills" },
-  { id: "portfolio", label: "Portfolio.", href: "#portfolio" },
-  { id: "contact", label: "Contact.", href: "#contact" },
+  { label: "Home.", href: "#home" },
+  { label: "About.", href: "#about" },
+  { label: "Skills.", href: "#skills" },
+  { label: "Portfolio.", href: "#portfolio" },
+  { label: "Contact.", href: "#contact" },
 ];
-
-const headerVariants = {
-  hidden: { y: -50, opacity: 0 },
-  visible: { 
-    y: 0, 
-    opacity: 1, 
-    transition: { type: "spring" as const, bounce: 0.2, duration: 0.8 } 
-  },
-};
-
-const navLinkVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.3 },
-  }),
-};
 
 const Header = () => {
   const { toggleTheme, theme } = useTheme();
@@ -48,23 +28,13 @@ const Header = () => {
   }, []);
 
   return (
-    <motion.header
-      className={`header ${isScrolled ? "active" : ""}`}
-      variants={headerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <header className={`header ${isScrolled ? "active" : ""}`}>
       <div className="container">
-        <motion.h1 
-          className="h1 logo"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "spring", duration: 0.8, bounce: 0.2 }}
-        >
+        <h1 className="h1 logo">
           <a href="#">
             Jordan Lee<span>.</span>
           </a>
-        </motion.h1>
+        </h1>
 
         <div className="navbar-actions">
           <select name="language" id="lang">
@@ -95,14 +65,8 @@ const Header = () => {
 
         <nav className={`navbar ${isNavOpen ? "active" : ""}`}>
           <ul className="navbar-list">
-            {navLinks.map(({ id, label, href }, i) => (
-              <motion.li
-                key={id}
-                custom={i}
-                variants={navLinkVariants}
-                initial="hidden"
-                animate="visible"
-              >
+            {navLinks.map(({ label, href }, index) => (
+              <li key={index}>
                 <a
                   href={href}
                   className="navbar-link"
@@ -110,12 +74,12 @@ const Header = () => {
                 >
                   {label}
                 </a>
-              </motion.li>
+              </li>
             ))}
           </ul>
         </nav>
       </div>
-    </motion.header>
+    </header>
   );
 };
 

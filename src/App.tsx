@@ -1,13 +1,13 @@
 import { ThemeProvider } from "./ThemeContext";
-import Footer from "./components/common/Footer";
-import Header from "./components/common/Header";
-import ScrollTop from "./components/common/ScrollTop";
-import Hero from "./components/pages/home/Hero";
-import Stats from "./components/pages/home/Stats";
-import About from "./components/pages/home/About";
-import Skills from "./components/pages/home/Skills";
-import Portfolio from "./components/pages/home/Portfolio";
-import Contact from "./components/pages/home/Contact";
+import { Header, BackTop, Footer } from "./components/common";
+import {
+  Hero,
+  Stats,
+  About,
+  Skills,
+  Portfolio,
+  Contact,
+} from "./components/pages/home";
 
 const App = () => {
   return (
@@ -24,7 +24,7 @@ const App = () => {
             <Contact />
           </div>
         </main>
-        <ScrollTop />
+        <BackTop />
         <Footer />
       </div>
     </ThemeProvider>

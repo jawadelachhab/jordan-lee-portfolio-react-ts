@@ -9,20 +9,19 @@ import {
   FaCircleUser,
   FaRocketchat,
 } from "react-icons/fa6";
-import React, {  useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 
-type ContactInfo = {
+interface ContactInfo {
   icon: React.ReactNode;
   title: string;
   content: (string | { label: string; href: string })[];
-};
+}
 
-type SocialLink = {
+interface SocialLink {
   name: string;
   icon: React.ReactNode;
   href: string;
-};
+}
 
 const contactInfo: ContactInfo[] = [
   {
@@ -55,19 +54,6 @@ const socialLinks: SocialLink[] = [
   { name: "YouTube", icon: <FaYoutube />, href: "#" },
 ];
 
-// Motion Variants
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.15 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
-
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -84,26 +70,19 @@ const Contact = () => {
   return (
     <section className="contact" id="contact">
       {/* Left content */}
-      <motion.div
-        className="contact-content section-content"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <motion.p className="section-subtitle">
-          Contact
-        </motion.p>
-        <motion.h2 className="h3 section-title" variants={itemVariants}>
+      <div className="contact-content section-content">
+        <p className="section-subtitle">Contact</p>
+        <h2 className="h3 section-title">
           Have You Any Project? Please Drop a Message
-        </motion.h2>
-        <motion.p className="section-text" variants={itemVariants}>
-          Get in touch and let me know how I can help. Fill out the form and I’ll be in touch as soon as possible.
-        </motion.p>
+        </h2>
+        <p className="section-text">
+          Get in touch and let me know how I can help. Fill out the form and
+          I’ll be in touch as soon as possible.
+        </p>
 
-        <motion.ul className="contact-list" variants={containerVariants}>
+        <ul className="contact-list">
           {contactInfo.map((item, index) => (
-            <motion.li key={index} className="contact-list-item" variants={itemVariants}>
+            <li key={index} className="contact-list-item">
               <div className="contact-item-icon">{item.icon}</div>
               <div className="wrapper">
                 <h3 className="h4 contact-item-title">{item.title}</h3>
@@ -119,42 +98,41 @@ const Contact = () => {
                   )
                 )}
               </div>
-            </motion.li>
+            </li>
           ))}
 
-          <motion.li variants={itemVariants}>
+          <li>
             <ul className="contac-social-list">
               {socialLinks.map((social, i) => (
-                <motion.li key={i} variants={itemVariants}>
+                <li key={i}>
                   <a href={social.href} className="contact-social-link">
                     <div className="tooltip">{social.name}</div>
                     {social.icon}
                   </a>
-                </motion.li>
+                </li>
               ))}
             </ul>
-          </motion.li>
-        </motion.ul>
-      </motion.div>
+          </li>
+        </ul>
+      </div>
 
       {/* Right Form */}
-      <motion.form
-        onSubmit={handleSubmit}
-        className="contact-form"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
-      >
+      <form onSubmit={handleSubmit} className="contact-form">
         {["name", "email", "phone", "message"].map((field, i) => (
-          <motion.div className="form-wrapper" key={i} variants={itemVariants}>
+          <div className="form-wrapper" key={i}>
             <label htmlFor={field} className="form-label">
               {field.charAt(0).toUpperCase() + field.slice(1)}
             </label>
             <div className="input-wrapper">
               {field !== "message" ? (
                 <input
-                  type={field === "email" ? "email" : field === "phone" ? "tel" : "text"}
+                  type={
+                    field === "email"
+                      ? "email"
+                      : field === "phone"
+                      ? "tel"
+                      : "text"
+                  }
                   id={field}
                   name={field}
                   required
@@ -184,13 +162,13 @@ const Contact = () => {
               {field === "phone" && <FaPhone />}
               {field === "message" && <FaRocketchat />}
             </div>
-          </motion.div>
+          </div>
         ))}
 
-        <motion.button type="submit" className="btn btn-primary" variants={itemVariants}>
+        <button type="submit" className="btn btn-primary">
           Send
-        </motion.button>
-      </motion.form>
+        </button>
+      </form>
     </section>
   );
 };
